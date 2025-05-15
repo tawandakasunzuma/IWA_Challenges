@@ -8,4 +8,4 @@ const surname = 'Smith';
 
 /* Log user and surname at same time */
 
-console.log(`${user} ${surname}`);
+console.log(user, surname);
