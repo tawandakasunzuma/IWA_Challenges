@@ -8,37 +8,34 @@ const shirts = 150 * NONE_SELECTED
 const batteries = 35 * 2
 const pens = 5 * NONE_SELECTED
 
+const customers = 1
+const currentLocation = 'RSA'
+let currency = null;
+let shipping = null;
+
 const total = shoes + toys + batteries + pens + shirts;
 
-const currentLocation = "RSA";
-let shipping = null;
-let currency = null;
-const customers = '1';
+const isFreeLocal = currency === "R" && total > 1000;
+const isFreeInt = currency === "$" & total > 60;
+const isFree = isFreeLocal || isFreeInt;
+const isFreeWarning = isFree && customers !== 1;
+const totalWithShipping = total + shipping;
+const isBanned = currentLocation === "NK";
 
-if (currentLocation === 'RSA') {
+if (isFreeWarning) {
+	console.log(FREE_WARNING);
+}
+
+if (isFree && !isFreeWarning) {
+	shipping = 0;
+}
+
+if (currentLocation === "RSA") {
 	shipping = 400;
-	currency = 'R' 
+	currency = "R"
+} else { 
+	currency = "$";
+	shipping = currentLocation === "NAM" ? 600 : 800
 }
 
-if (currentLocation === 'NAM') {
-	shipping = 600;
-	currency = '$'
-} else {
-	shipping = 800;
-}
-
-currentLocation === 'NK' ? 
-	console.log(BANNED_WARNING) : 
-	console.log('price', currency, (total + shipping)) 
-
-if (currentLocation === "RSA" && total >= 1000 && customers === 1) {
-	shipping = 0;
-}
-
-if (currentLocation === "NAM" && total >= 60 && customers === 1) {
-	shipping = 0;
-}
-
-if (shipping === 0 && customers !== 1) {
-	console.log(FREE_WARNING)
-}
+console.log(isBanned ? BANNED_WARNING : `Price:` + currency + totalWithShipping)
